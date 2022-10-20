@@ -179,65 +179,69 @@ function App() {
         </div>
 
         <div className="display">
-          <select
-            className="form-select"
-            name="month"
-            id="month"
-            aria-label="Default select example"
-            onChange={handleMonthAndYearChange}
-            value={String(monthAndDays)}
-          >
-            <option value="31-01">January</option>
-            <option value="28-02">February</option>
-            <option value="31-03">March</option>
-            <option value="30-04">April</option>
-            <option value="31-05">May</option>
-            <option value="30-06">June</option>
-            <option value="31-07">July</option>
-            <option value="31-08">August</option>
-            <option value="30-09">September</option>
-            <option value="31-10">October</option>
-            <option value="30-11">November</option>
-            <option value="31-12">December</option>
-          </select>
-          <br />
-          <br />
-          <select
-            className="form-select"
-            name="year"
-            id="year"
-            aria-label="Default select example"
-            onChange={handleMonthAndYearChange}
-            value={currentYear}
-          >
-            <option selected>2020</option>
-            <option value="2021">2021</option>
-            <option value="2022">2022</option>
-            <option value="2023">2023</option>
-          </select>
-
-          <br />
-          <br />
-          {searchData?.data?.map((item) => (
-            <div className="border">
-              {`${searchData?.year}-${searchData?.month[1]}-${item}`}
-              {(() => {
-                let x = `${searchData?.year}-${searchData?.month[1]}-${item}`;
-
-                return (
-                  <>
-                    {authData?.map((item) =>
-                      item?.date == x ? (
-                        <div onClick={handleShow}>{item.time} </div>
-                      ) : (
-                        ""
-                      )
-                    )}
-                  </>
-                );
-              })()}
+          <div className="mb-3 d-flex align-items-center gap-2">
+            <div>
+              <select
+                className="form-select"
+                name="month"
+                id="month"
+                aria-label="Default select example"
+                onChange={handleMonthAndYearChange}
+                value={String(monthAndDays)}
+              >
+                <option value="31-01">January</option>
+                <option value="28-02">February</option>
+                <option value="31-03">March</option>
+                <option value="30-04">April</option>
+                <option value="31-05">May</option>
+                <option value="30-06">June</option>
+                <option value="31-07">July</option>
+                <option value="31-08">August</option>
+                <option value="30-09">September</option>
+                <option value="31-10">October</option>
+                <option value="30-11">November</option>
+                <option value="31-12">December</option>
+              </select>
             </div>
-          ))}
+            <div>
+              <select
+                className="form-select"
+                name="year"
+                id="year"
+                aria-label="Default select example"
+                onChange={handleMonthAndYearChange}
+                value={currentYear}
+              >
+                <option selected>2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="item_wrapper">
+            {searchData?.data?.map((item) => (
+              <div className="border single_item">
+                {`${searchData?.year}-${searchData?.month[1]}-${item}`}
+                {(() => {
+                  let x = `${searchData?.year}-${searchData?.month[1]}-${item}`;
+
+                  return (
+                    <>
+                      {authData?.map((item) =>
+                        item?.date == x ? (
+                          <div onClick={handleShow}>{item.time} </div>
+                        ) : (
+                          ""
+                        )
+                      )}
+                    </>
+                  );
+                })()}
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="modal">
