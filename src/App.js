@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import { toast, ToastContainer } from "react-toastify";
 import { commonAction } from "./Action/Action";
 import { Wrapper } from "./styles.App";
 
@@ -88,11 +87,11 @@ function App() {
       newArray.push(values);
       dispatch(commonAction(newArray, "UPLOAD"));
       setValues({ name: "", gender: "", age: "", date: "", time: "" });
-      toast.success("Done");
+      alert("successfully submitted");
     } else {
       dispatch(commonAction([values], "UPLOAD"));
       setValues({ name: "", gender: "", age: "", date: "", time: "" });
-      toast.success("Done");
+      alert("successfully submitted");
     }
   };
 
@@ -292,7 +291,6 @@ function App() {
           </div>
         </div>
       </Wrapper>
-      <ToastContainer />
     </>
   );
 }
