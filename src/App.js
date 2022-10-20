@@ -74,7 +74,9 @@ function App() {
     setcurrentYear(currentDate?.getFullYear());
   }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
     if (authData?.length > 0) {
       let newArray = [...authData];
       newArray.push(values);
