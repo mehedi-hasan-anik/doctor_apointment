@@ -23,7 +23,9 @@ export const Wrapper = styled.div`
   }
   .single_item {
     padding: 10px;
-    cursor: pointer;
     border-radius: 10px;
+  }
+  button {
+    cursor: pointer;
   }
 `;

@@ -13,9 +13,9 @@ function App() {
   const [show, setShow] = useState(false);
   const [monthAndDays, setMonthAndDays] = useState(null);
   const [currentYear, setcurrentYear] = useState(null);
+  const [modalData, setModalData] = useState({});
   const dispatch = useDispatch();
-
-  console.log("authData", authData);
+  console.log("modalData", modalData);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -90,7 +90,10 @@ function App() {
   };
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = (item) => {
+    setModalData(item);
+    setShow(true);
+  };
 
   return (
     <Wrapper className="App">
@@ -231,7 +234,15 @@ function App() {
                     <>
                       {authData?.map((item) =>
                         item?.date == x ? (
-                          <div onClick={handleShow}>{item.time} </div>
+                          <>
+                            <div>{item.time}</div>
+                            <button
+                              onClick={() => handleShow(item)}
+                              className="btn btn-primary mt-2"
+                            >
+                              details
+                            </button>
+                          </>
                         ) : (
                           ""
                         )
@@ -246,18 +257,17 @@ function App() {
 
         <div className="modal">
           <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>Modal heading</Modal.Title>
-            </Modal.Header>
+            <Modal.Header closeButton></Modal.Header>
             <Modal.Body>
-              Woohoo, you're reading this text in a modal!
+              <h1>{modalData?.name}</h1>
+              <p>Gender: {modalData?.gender}</p>
+              <p>Age: {modalData?.age}</p>
+              <p>Date: {modalData?.date}</p>
+              <p>Time: {modalData?.time}</p>
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
                 Close
-              </Button>
-              <Button variant="primary" onClick={handleClose}>
-                Save Changes
               </Button>
             </Modal.Footer>
           </Modal>
