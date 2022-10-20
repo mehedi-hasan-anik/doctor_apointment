@@ -1,23 +1,205 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import { useDispatch, useSelector } from "react-redux";
+import { commonAction } from "./Action/Action";
+import "./App.css";
 
 function App() {
+  const authData = useSelector((state: any) => state?.upload_data?.data);
+  const [values, setValues] = useState({});
+  const [searchData, setSearchData] = useState({});
+  const [show, setShow] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value });
+  };
+
+  const handleMonthAndYearChange = (e) => {
+    const monthData = document.getElementById("month").value.split("-");
+    const yearData = document.getElementById("year").value;
+    const newArray = [];
+    for (var i = 1; i <= Number(monthData[0]); i++) {
+      newArray.push(i);
+    }
+    console.log("newArray", newArray);
+    const data = {
+      month: monthData,
+      year: yearData,
+      data: newArray,
+    };
+    setSearchData(data);
+  };
+
+  console.log("data", searchData);
+
+  const handleSubmit = () => {
+    let newArray = [...authData];
+    newArray.push(values);
+    dispatch(commonAction(newArray, "UPLOAD"));
+    setValues({});
+  };
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="container">
+        <div className="upload">
+          <form autocomplete="off">
+            <label className="" htmlFor="name">
+              name
+            </label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              onChange={handleChange}
+              value={values?.name}
+            />
+            <br />
+            <label className="" htmlFor="age">
+              age
+            </label>
+            <input
+              type="text"
+              name="age"
+              id="age"
+              onChange={handleChange}
+              value={values?.age}
+            />
+            <br />
+            <label className="" htmlFor="gender">
+              {" "}
+              gender
+            </label>
+            <select
+              id="gender"
+              className="form-select"
+              name="gender"
+              aria-label="Default select example"
+              onChange={handleChange}
+              value={values?.gender}
+            >
+              <option selected> select</option>
+              <option value="male">male</option>
+              <option value="female">female</option>
+            </select>
+            <br />
+            <label className="" htmlFor="date">
+              date
+            </label>
+            <input
+              type="date"
+              name="date"
+              id="date"
+              onChange={handleChange}
+              value={values?.date}
+            />
+            <br />
+            <label className="" htmlFor="time">
+              time
+            </label>
+            <input
+              type="time"
+              id="appt"
+              name="time"
+              min="09:00"
+              max="18:00"
+              onChange={handleChange}
+              value={values?.time}
+            ></input>
+            <button type="button" onClick={handleSubmit}>
+              Submit
+            </button>
+          </form>
+        </div>
+        <br />
+        <br />
+        <br />
+        <div className="display">
+          <select
+            className="form-select"
+            name="month"
+            id="month"
+            aria-label="Default select example"
+            onChange={handleMonthAndYearChange}
+          >
+            <option value="30-01">January</option>
+            <option value="30-02">February</option>
+            <option value="30-03">March</option>
+            <option value="30-04">April</option>
+            <option value="30-05">May</option>
+            <option value="30-06">June</option>
+            <option value="30-07">July</option>
+            <option value="30-08">August</option>
+            <option value="30-09">September</option>
+            <option value="30-10">October</option>
+            <option value="30-11">November</option>
+            <option value="30-12">December</option>
+          </select>
+          <br />
+          <br />
+          <select
+            className="form-select"
+            name="year"
+            id="year"
+            aria-label="Default select example"
+            onChange={handleMonthAndYearChange}
+          >
+            <option selected>2020</option>
+            <option value="2021">2021</option>
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>
+          </select>
+
+          <br />
+          <br />
+          {searchData?.data?.map((item) => (
+            <div className="border">
+              {`${searchData?.year}-${searchData?.month[1]}-${item}`}
+              {(() => {
+                let x = `${searchData?.year}-${searchData?.month[1]}-${item}`;
+
+                return (
+                  <>
+                    {authData?.map((item) =>
+                      item?.date == x ? (
+                        <div onClick={handleShow}>{item.time} </div>
+                      ) : (
+                        ""
+                      )
+                    )}
+                  </>
+                );
+              })()}
+            </div>
+          ))}
+        </div>
+
+        <div className="modal">
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Modal heading</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              Woohoo, you're reading this text in a modal!
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+              <Button variant="primary" onClick={handleClose}>
+                Save Changes
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      </div>
     </div>
   );
 }
