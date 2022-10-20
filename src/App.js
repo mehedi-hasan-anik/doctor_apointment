@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +9,10 @@ function App() {
   const authData = useSelector((state: any) => state?.upload_data?.data);
   const [values, setValues] = useState({});
   const [searchData, setSearchData] = useState({});
+  const [currentDate, setCurrentDate] = useState(new Date());
   const [show, setShow] = useState(false);
+  const [monthAndDays, setMonthAndDays] = useState(null);
+  const [currentYear, setcurrentYear] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -25,7 +28,6 @@ function App() {
     for (var i = 1; i <= Number(monthData[0]); i++) {
       newArray.push(i);
     }
-    console.log("newArray", newArray);
     const data = {
       month: monthData,
       year: yearData,
@@ -34,7 +36,51 @@ function App() {
     setSearchData(data);
   };
 
-  console.log("data", searchData);
+  const fethData = (monthD, yearData) => {
+    let monthData = monthD.split("-");
+    const newArray = [];
+    for (var i = 1; i <= Number(monthData[0]); i++) {
+      newArray.push(i);
+    }
+    const data = {
+      month: monthData,
+      year: yearData,
+      data: newArray,
+    };
+    setSearchData(data);
+  };
+
+  function daysInMonth(month, year) {
+    return new Date(year, month, 0).getDate();
+  }
+
+  useEffect(() => {
+    fethData(
+      `${daysInMonth(
+        currentDate?.getMonth() + 1,
+        currentDate?.getFullYear()
+      )}-${currentDate?.getMonth() + 1}`,
+      currentDate?.getFullYear()
+    );
+
+    let dayAdmonth = `${daysInMonth(
+      currentDate?.getMonth() + 1,
+      currentDate?.getFullYear()
+    )}-${currentDate?.getMonth() + 1}`;
+
+    console.log("anik", dayAdmonth);
+
+    setMonthAndDays(dayAdmonth);
+
+    setcurrentYear(currentDate?.getFullYear());
+  }, []);
+
+  console.log("currentDate", currentDate?.getMonth() + 1);
+
+  console.log(
+    "day",
+    daysInMonth(currentDate?.getMonth() + 1, currentDate?.getFullYear())
+  );
 
   const handleSubmit = () => {
     let newArray = [...authData];
@@ -45,6 +91,8 @@ function App() {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  console.log("monthAndDays", monthAndDays);
 
   return (
     <div className="App">
@@ -128,19 +176,20 @@ function App() {
             id="month"
             aria-label="Default select example"
             onChange={handleMonthAndYearChange}
+            value={String(monthAndDays)}
           >
-            <option value="30-01">January</option>
-            <option value="30-02">February</option>
-            <option value="30-03">March</option>
+            <option value="31-01">January</option>
+            <option value="28-02">February</option>
+            <option value="31-03">March</option>
             <option value="30-04">April</option>
-            <option value="30-05">May</option>
+            <option value="31-05">May</option>
             <option value="30-06">June</option>
-            <option value="30-07">July</option>
-            <option value="30-08">August</option>
+            <option value="31-07">July</option>
+            <option value="31-08">August</option>
             <option value="30-09">September</option>
-            <option value="30-10">October</option>
+            <option value="31-10">October</option>
             <option value="30-11">November</option>
-            <option value="30-12">December</option>
+            <option value="31-12">December</option>
           </select>
           <br />
           <br />
@@ -150,6 +199,7 @@ function App() {
             id="year"
             aria-label="Default select example"
             onChange={handleMonthAndYearChange}
+            value={currentYear}
           >
             <option selected>2020</option>
             <option value="2021">2021</option>
