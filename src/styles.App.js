@@ -5,6 +5,9 @@ export const Wrapper = styled.div`
   input {
     cursor: pointer;
   }
+  input[date] {
+    cursor: pointer;
+  }
   .upload {
     margin-bottom: 100px;
   }
