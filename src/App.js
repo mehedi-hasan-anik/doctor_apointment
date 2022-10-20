@@ -7,7 +7,13 @@ import { Wrapper } from "./styles.App";
 
 function App() {
   const authData = useSelector((state: any) => state?.upload_data?.data);
-  const [values, setValues] = useState({});
+  const [values, setValues] = useState({
+    name: "",
+    gender: "",
+    age: "",
+    date: "",
+    time: "",
+  });
   const [searchData, setSearchData] = useState({});
   const [currentDate, setCurrentDate] = useState(new Date());
   const [show, setShow] = useState(false);
@@ -15,7 +21,6 @@ function App() {
   const [currentYear, setcurrentYear] = useState(null);
   const [modalData, setModalData] = useState({});
   const dispatch = useDispatch();
-  console.log("modalData", modalData);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -81,11 +86,10 @@ function App() {
       let newArray = [...authData];
       newArray.push(values);
       dispatch(commonAction(newArray, "UPLOAD"));
-      console.log("anik", newArray);
-      setValues({});
+      setValues({ name: "", gender: "", age: "", date: "", time: "" });
     } else {
       dispatch(commonAction([values], "UPLOAD"));
-      setValues({});
+      setValues({ name: "", gender: "", age: "", date: "", time: "" });
     }
   };
 
@@ -185,7 +189,7 @@ function App() {
           <div className="mb-3 d-flex align-items-center gap-2">
             <div>
               <select
-                className="form-select"
+                className="form-select month"
                 name="month"
                 id="month"
                 aria-label="Default select example"
@@ -208,7 +212,7 @@ function App() {
             </div>
             <div>
               <select
-                className="form-select"
+                className="form-select year"
                 name="year"
                 id="year"
                 aria-label="Default select example"

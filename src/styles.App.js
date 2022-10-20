@@ -28,4 +28,10 @@ export const Wrapper = styled.div`
   button {
     cursor: pointer;
   }
+  .month {
+    cursor: pointer;
+  }
+  .year {
+    cursor: pointer;
+  }
 `;
