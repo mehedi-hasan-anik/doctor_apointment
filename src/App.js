@@ -13,8 +13,9 @@ function App() {
   const [show, setShow] = useState(false);
   const [monthAndDays, setMonthAndDays] = useState(null);
   const [currentYear, setcurrentYear] = useState(null);
-
   const dispatch = useDispatch();
+
+  console.log("authData", authData);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -68,37 +69,33 @@ function App() {
       currentDate?.getFullYear()
     )}-${currentDate?.getMonth() + 1}`;
 
-    console.log("anik", dayAdmonth);
-
     setMonthAndDays(dayAdmonth);
 
     setcurrentYear(currentDate?.getFullYear());
   }, []);
 
-  console.log("currentDate", currentDate?.getMonth() + 1);
-
-  console.log(
-    "day",
-    daysInMonth(currentDate?.getMonth() + 1, currentDate?.getFullYear())
-  );
-
   const handleSubmit = () => {
-    let newArray = [...authData];
-    newArray.push(values);
-    dispatch(commonAction(newArray, "UPLOAD"));
-    setValues({});
+    if (authData?.length > 0) {
+      let newArray = [...authData];
+      newArray.push(values);
+      dispatch(commonAction(newArray, "UPLOAD"));
+      console.log("anik", newArray);
+      setValues({});
+    } else {
+      dispatch(commonAction([values], "UPLOAD"));
+      console.log("anik2", values);
+      setValues({});
+    }
   };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  console.log("monthAndDays", monthAndDays);
-
   return (
     <div className="App">
       <div className="container">
         <div className="upload">
-          <form autocomplete="off">
+          <form onSubmit={handleSubmit}>
             <label className="" htmlFor="name">
               name
             </label>
@@ -161,9 +158,7 @@ function App() {
               onChange={handleChange}
               value={values?.time}
             ></input>
-            <button type="button" onClick={handleSubmit}>
-              Submit
-            </button>
+            <button type="submit">Submit</button>
           </form>
         </div>
         <br />
