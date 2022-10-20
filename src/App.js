@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { commonAction } from "./Action/Action";
-import "./App.css";
+import { Wrapper } from "./styles.App";
 
 function App() {
   const authData = useSelector((state: any) => state?.upload_data?.data);
@@ -85,7 +85,6 @@ function App() {
       setValues({});
     } else {
       dispatch(commonAction([values], "UPLOAD"));
-      console.log("anik2", values);
       setValues({});
     }
   };
@@ -94,78 +93,91 @@ function App() {
   const handleShow = () => setShow(true);
 
   return (
-    <div className="App">
+    <Wrapper className="App">
       <div className="container">
         <div className="upload">
           <form onSubmit={handleSubmit}>
-            <label className="" htmlFor="name">
-              name
-            </label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              onChange={handleChange}
-              value={values?.name}
-            />
-            <br />
-            <label className="" htmlFor="age">
-              age
-            </label>
-            <input
-              type="text"
-              name="age"
-              id="age"
-              onChange={handleChange}
-              value={values?.age}
-            />
-            <br />
-            <label className="" htmlFor="gender">
-              {" "}
-              gender
-            </label>
-            <select
-              id="gender"
-              className="form-select"
-              name="gender"
-              aria-label="Default select example"
-              onChange={handleChange}
-              value={values?.gender}
-            >
-              <option selected> select</option>
-              <option value="male">male</option>
-              <option value="female">female</option>
-            </select>
-            <br />
-            <label className="" htmlFor="date">
-              date
-            </label>
-            <input
-              type="date"
-              name="date"
-              id="date"
-              onChange={handleChange}
-              value={values?.date}
-            />
-            <br />
-            <label className="" htmlFor="time">
-              time
-            </label>
-            <input
-              type="time"
-              id="appt"
-              name="time"
-              min="09:00"
-              max="18:00"
-              onChange={handleChange}
-              value={values?.time}
-            ></input>
-            <button type="submit">Submit</button>
+            <div className="row">
+              <div className="col-md-4">
+                <label className="" htmlFor="name">
+                  name
+                </label>
+                <input
+                  className="form-control"
+                  type="text"
+                  name="name"
+                  id="name"
+                  onChange={handleChange}
+                  value={values?.name}
+                />
+              </div>
+              <div className="col-md-4">
+                <label className="" htmlFor="age">
+                  age
+                </label>
+                <input
+                  className="form-control"
+                  type="text"
+                  name="age"
+                  id="age"
+                  onChange={handleChange}
+                  value={values?.age}
+                />
+              </div>
+              <div className="col-md-4">
+                <label className="" htmlFor="gender">
+                  gender
+                </label>
+                <select
+                  id="gender"
+                  className="form-select form-control"
+                  name="gender"
+                  aria-label="Default select example"
+                  onChange={handleChange}
+                  value={values?.gender}
+                >
+                  <option selected> select</option>
+                  <option value="male">male</option>
+                  <option value="female">female</option>
+                </select>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-4">
+                <label className="" htmlFor="date">
+                  date
+                </label>
+                <input
+                  className="form-control"
+                  type="date"
+                  name="date"
+                  id="date"
+                  onChange={handleChange}
+                  value={values?.date}
+                />
+              </div>
+              <div className="col-md-4">
+                <label className="" htmlFor="time">
+                  time
+                </label>
+                <input
+                  className="form-control"
+                  type="time"
+                  id="appt"
+                  name="time"
+                  min="09:00"
+                  max="18:00"
+                  onChange={handleChange}
+                  value={values?.time}
+                ></input>
+              </div>
+            </div>
+            <button type="submit" className="btn btn-primary mt-3">
+              Submit
+            </button>
           </form>
         </div>
-        <br />
-        <br />
-        <br />
+
         <div className="display">
           <select
             className="form-select"
@@ -247,7 +259,7 @@ function App() {
           </Modal>
         </div>
       </div>
-    </div>
+    </Wrapper>
   );
 }
 
