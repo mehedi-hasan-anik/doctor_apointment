@@ -15,6 +15,11 @@ export default function (state = defaultState, action: any = {}) {
         ...state,
         upload_data: action,
       };
+    case "DATE":
+      return {
+        ...state,
+        date_data: action,
+      };
 
     default:
       return state;
